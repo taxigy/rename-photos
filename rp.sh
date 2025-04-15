@@ -51,8 +51,10 @@ for file in $file_pattern; do
       (*.*)  extension=${file##*.};;
       (*)    extension="";;
     esac
+    filename=$(basename "$file")
+    cleanname=$(echo "$filename" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]//g')
     # Construct the new filename using the content creation date and time
-    new_filename="`dirname $file`/$creation_date_time.$extension"
+    new_filename="`dirname $file`/$creation_date_time-$cleanname.$extension"
     # Print the new path
     echo "$file -> $new_filename"
     # Rename the file using the new filename, or print a message if dry_run is true
